@@ -33,9 +33,13 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.12'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
     implementation 'io.qameta.allure:allure-selenide:2.16.1'
+
 }
 
 test {
     useJUnitPlatform()
     systemProperty 'selenide.headless', System.getProperty('selenide.headless')
+    systemProperty 'dbUrl', System.getProperty('dbUrl')
+    // systemProperty 'dbUsername', System.getProperty('dbUsername')
+    // systemProperty 'dbPassword', System.getProperty('dbPassword')
 }

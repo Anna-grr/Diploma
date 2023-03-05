@@ -13,10 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SQLHelper {
 
     private static QueryRunner runner = new QueryRunner();
+    private static String url = System.getProperty("dbUrl");
+    // private static  String username = System.getProperty("dbUsername");
+    // private static  String password = System.getProperty("dbPassword");
 
     private static Connection getConn() {
         try {
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass");
+            return DriverManager.getConnection(url, "app", "pass");
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
