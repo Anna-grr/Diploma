@@ -1,4 +1,9 @@
+Thumbs.db*
+.DS_Store
 HELP.md
+.gradle
+build/
+data/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
