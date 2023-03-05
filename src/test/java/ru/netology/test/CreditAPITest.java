@@ -1,11 +1,15 @@
 package ru.netology.test;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
 import com.google.gson.Gson;
 
+import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
 
@@ -17,6 +21,16 @@ public class CreditAPITest {
 
     private static DataHelper.CardInfo cardInfo;
     private static final Gson gson = new Gson();
+
+    @BeforeAll
+    static void setUpAll() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+        SelenideLogger.removeListener("allure");
+    }
 
     private RequestSpecification requestSpec = new RequestSpecBuilder()
             .setBaseUri("http://localhost")
