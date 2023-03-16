@@ -50,19 +50,19 @@ public class FormPage {
     }
 
     public void setEmptyValue(DataHelper.CardInfo info, String empty) {
-        if (empty != "number") {
+        if (!empty.equals("number")) {
             numberField.setValue(info.getNumber());
         }
-        if (empty != "monthField") {
+        if (!empty.equals("monthField")) {
             monthField.setValue(info.getMonth());
         }
-        if (empty != "yearField") {
+        if (!empty.equals("yearField")) {
             yearField.setValue(info.getYear());
         }
-        if (empty != "holderField") {
+        if (!empty.equals("holderField")) {
             holderField.setValue(info.getHolder());
         }
-        if (empty != "cvcField") {
+        if (!empty.equals("cvcField")) {
             cvcField.setValue(info.getCvc());
         }
         continueButton.click();
@@ -76,52 +76,52 @@ public class FormPage {
         errorNotification.shouldBe(visible, Duration.ofSeconds(20));
     }
 
-    public SelenideElement getErrorNotifyIfEmptyNumber() {
+    public SelenideElement checkErrorNotifyIfEmptyNumber() {
         return errorNotify(numberField).shouldBe(visible, text("Поле обязательно для заполнения"));
     }
 
-    public SelenideElement getErrorNotifyIfInvalidNumber() {
+    public SelenideElement checkErrorNotifyIfInvalidNumber() {
         return errorNotify(numberField).shouldBe(visible, text("Неверный формат"));
     }
 
-    public SelenideElement getErrorNotifyIfEmptyMonth() {
+    public SelenideElement checkErrorNotifyIfEmptyMonth() {
         return errorNotify(monthField).shouldBe(visible, text("Поле обязательно для заполнения"));
     }
 
-    public SelenideElement getErrorNotifyIfInvalidMonth() {
+    public SelenideElement checkErrorNotifyIfInvalidMonth() {
         return errorNotify(monthField).shouldBe(visible, text("Неверно указан срок действия карты"));
     }
 
-    public SelenideElement getErrorNotifyIfExpiredMonth() {
+    public SelenideElement checkErrorNotifyIfExpiredMonth() {
         return errorNotify(monthField).shouldBe(visible, text("Истёк срок действия карты"));
     }
 
 
-    public SelenideElement getErrorNotifyIfEmptyYear() {
+    public SelenideElement checkErrorNotifyIfEmptyYear() {
         return errorNotify(yearField).shouldBe(visible, text("Поле обязательно для заполнения"));
     }
 
-    public SelenideElement getErrorNotifyIfInvalidYear() {
+    public SelenideElement checkErrorNotifyIfInvalidYear() {
         return errorNotify(yearField).shouldBe(visible, text("Неверно указан срок действия карты"));
     }
 
-    public SelenideElement getErrorNotifyIfExpiredYear() {
+    public SelenideElement checkErrorNotifyIfExpiredYear() {
         return errorNotify(yearField).shouldBe(visible, text("Истёк срок действия карты"));
     }
 
-    public SelenideElement getErrorNotifyIfEmptyHolder() {
+    public SelenideElement checkErrorNotifyIfEmptyHolder() {
         return errorNotify(holderField).shouldBe(visible, text("Поле обязательно для заполнения"));
     }
 
-    public SelenideElement getErrorNotifyIfInvalidHolder() {
+    public SelenideElement checkErrorNotifyIfInvalidHolder() {
         return errorNotify(holderField).shouldBe(visible, text("Неверный формат"));
     }
 
-    public SelenideElement getErrorNotifyIfEmptyCVC() {
+    public SelenideElement checkErrorNotifyIfEmptyCVC() {
         return errorNotify(cvcField).shouldBe(visible, text("Поле обязательно для заполнения"));
     }
 
-    public SelenideElement getErrorNotifyIfInvalidCVC() {
+    public SelenideElement checkErrorNotifyIfInvalidCVC() {
         return errorNotify(cvcField).shouldBe(visible, text("Неверный формат"));
     }
 }

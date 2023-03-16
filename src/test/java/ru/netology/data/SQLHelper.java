@@ -6,35 +6,27 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SQLHelper {
 
     private static QueryRunner runner = new QueryRunner();
-    private static String url = System.getProperty("dbUrl");
-    // private static  String username = System.getProperty("dbUsername");
-    // private static  String password = System.getProperty("dbPassword");
 
+    private static String url = System.getProperty("dbUrl");
+    private static String username = System.getProperty("dbUsername");
+    private static String password = System.getProperty("dbPassword");
+
+    @SneakyThrows
     private static Connection getConn() {
-        try {
-            return DriverManager.getConnection(url, "app", "pass");
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-        return null;
+        return DriverManager.getConnection(url, username, password);
     }
 
     @SneakyThrows
     public static String getPaymentStatus(String status) {
+        Connection conn = getConn();
         var SQLQuery = "SELECT status FROM payment_entity JOIN order_entity ON transaction_id = payment_id where status = ?";
-        try (Connection conn = getConn()) {
-            return runner.query(conn, SQLQuery, new ScalarHandler<String>(), status);
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-        return null;
+        return runner.query(conn, SQLQuery, new ScalarHandler<String>(), status);
     }
 
     @SneakyThrows
@@ -44,13 +36,9 @@ public class SQLHelper {
 
     @SneakyThrows
     public static String getCreditStatus(String status) {
+        Connection conn = getConn();
         var SQLQuery = "SELECT status FROM credit_request_entity JOIN order_entity ON bank_id = credit_id where status = ?";
-        try (Connection conn = getConn()) {
-            return runner.query(conn, SQLQuery, new ScalarHandler<String>(), status);
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-        return null;
+        return runner.query(conn, SQLQuery, new ScalarHandler<String>(), status);
     }
 
     @SneakyThrows

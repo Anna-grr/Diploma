@@ -72,7 +72,7 @@ public class DataHelper {
     }
 
     public static CardInfo getInvalidCardWithExpiredMonth() {
-        return new CardInfo("4444 4444 4444 4441", generateExpiredMonth(1), generateYear(0),
+        return new CardInfo("4444 4444 4444 4441", generateMonth(-1), generateYear(0),
                 generateValidHolder(), generateValidCVC());
     }
 
@@ -92,7 +92,7 @@ public class DataHelper {
     }
 
     public static CardInfo getInvalidCardWithExpiredYear() {
-        return new CardInfo("4444 4444 4444 4441", generateMonth(0), generateExpiredYear(1),
+        return new CardInfo("4444 4444 4444 4441", generateMonth(0), generateYear(-1),
                 generateValidHolder(), generateValidCVC());
     }
 
@@ -146,16 +146,8 @@ public class DataHelper {
         return LocalDate.now().plusMonths(addMonths).format(DateTimeFormatter.ofPattern("MM"));
     }
 
-    public static String generateExpiredMonth(int takeMonths) {
-        return LocalDate.now().minusMonths(takeMonths).format(DateTimeFormatter.ofPattern("MM"));
-    }
-
     public static String generateYear(int addYears) {
         return LocalDate.now().plusYears(addYears).format(DateTimeFormatter.ofPattern("yy"));
-    }
-
-    public static String generateExpiredYear(int takeYears) {
-        return LocalDate.now().minusYears(takeYears).format(DateTimeFormatter.ofPattern("yy"));
     }
 
     public static String generateValidHolder() {

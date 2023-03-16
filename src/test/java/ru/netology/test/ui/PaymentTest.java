@@ -1,4 +1,4 @@
-package ru.netology.test;
+package ru.netology.test.ui;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
@@ -11,7 +11,8 @@ import ru.netology.page.MainPage;
 import static com.codeborne.selenide.Selenide.*;
 import static ru.netology.data.SQLHelper.cleanDatabase;
 
-public class CreditTest {
+
+public class PaymentTest {
 
     @BeforeAll
     static void setUpAll() {
@@ -38,94 +39,94 @@ public class CreditTest {
     void happyPath() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getValidApprovedCard();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
         formPage.getSuccessNotification();
-        SQLHelper.assertCreditStatus("APPROVED");
+        SQLHelper.assertPaymentStatus("APPROVED");
     }
 
     @Test
     void sadPath() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getValidDeclinedCard();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getSuccessNotification();
-        SQLHelper.assertCreditStatus("DECLINED");
+        formPage.getErrorNotification();
+        SQLHelper.assertPaymentStatus("DECLINED");
     }
 
     @Test
     void shouldSucceedIfCurrentMonthAndCurrentYear() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getValidCardWithCurrentMonthAndCurrentYear();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
         formPage.getSuccessNotification();
-        SQLHelper.assertCreditStatus("APPROVED");
+        SQLHelper.assertPaymentStatus("APPROVED");
     }
 
     @Test
     void shouldSucceedIfExpirationDateIs4YearsFromCurrent() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getValidCardWithPlus4YearsFromCurrent();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
         formPage.getSuccessNotification();
-        SQLHelper.assertCreditStatus("APPROVED");
+        SQLHelper.assertPaymentStatus("APPROVED");
     }
 
     @Test
     void shouldSucceedIfExpirationDateIs5YearsFromCurrent() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getValidCardWithPlus5YearsFromCurrent();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
         formPage.getSuccessNotification();
-        SQLHelper.assertCreditStatus("APPROVED");
+        SQLHelper.assertPaymentStatus("APPROVED");
     }
 
     @Test
     void shouldSucceedIfHyphenatedHolderName() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getValidCardWithHyphenatedName();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
         formPage.getSuccessNotification();
-        SQLHelper.assertCreditStatus("APPROVED");
+        SQLHelper.assertPaymentStatus("APPROVED");
     }
 
     @Test
     void shouldGetErrorNotifyIfEmptyNumber() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getValidApprovedCard();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setEmptyValue(cardInfo, "number");
-        formPage.getErrorNotifyIfEmptyNumber();
+        formPage.checkErrorNotifyIfEmptyNumber();
     }
 
     @Test
     void shouldGetErrorNotifyIfNumberContains15Digits() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getInvalidCardWith15Digits();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotifyIfInvalidNumber();
+        formPage.checkErrorNotifyIfInvalidNumber();
     }
 
     @Test
     void shouldGetErrorNotifyIfNumberContains17Digits() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getInvalidCardWith17Digits();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotifyIfInvalidNumber();
+        formPage.checkErrorNotifyIfInvalidNumber();
     }
 
     @Test
     void shouldGetErrorNotifyIfNumberContains16RandomDigits() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getInvalidCardWith16RandomDigits();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
         formPage.getErrorNotification();
     }
@@ -134,135 +135,134 @@ public class CreditTest {
     void shouldGetErrorNotifyIfNumberContainsLetters() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getInvalidCardWithLettersInNumber();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotifyIfInvalidNumber();
+        formPage.checkErrorNotifyIfInvalidNumber();
     }
-
 
     @Test
     void shouldGetErrorNotifyIfEmptyMonth() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getValidApprovedCard();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setEmptyValue(cardInfo, "monthField");
-        formPage.getErrorNotifyIfEmptyMonth();
+        formPage.checkErrorNotifyIfEmptyMonth();
     }
 
     @Test
     void shouldGetErrorNotifyIfMonthValueIs00() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getInvalidCardWith00Month();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotifyIfInvalidMonth();
+        formPage.checkErrorNotifyIfInvalidMonth();
     }
 
     @Test
     void shouldGetErrorNotifyIfMonthValueIs13() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getInvalidCardWith13thMonth();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotifyIfInvalidMonth();
+        formPage.checkErrorNotifyIfInvalidMonth();
     }
 
     @Test
     void shouldGetErrorNotifyIfExpiredMonth() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getInvalidCardWithExpiredMonth();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotifyIfExpiredMonth();
+        formPage.checkErrorNotifyIfExpiredMonth();
     }
 
     @Test
     void shouldGetErrorNotifyIfEmptyYear() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getValidApprovedCard();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setEmptyValue(cardInfo, "yearField");
-        formPage.getErrorNotifyIfEmptyYear();
+        formPage.checkErrorNotifyIfEmptyYear();
     }
 
     @Test
     void shouldGetErrorNotifyIfExpirationDateIs6YearsFromCurrent() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getCardWithPlus6YearsFromCurrent();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotifyIfInvalidYear();
+        formPage.checkErrorNotifyIfInvalidYear();
     }
 
     @Test
     void shouldGetErrorNotifyIfExpiredYear() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getInvalidCardWithExpiredYear();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotifyIfExpiredYear();
+        formPage.checkErrorNotifyIfExpiredYear();
     }
 
     @Test
     void shouldGetErrorNotifyIfEmptyHolder() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getValidApprovedCard();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setEmptyValue(cardInfo, "holderField");
-        formPage.getErrorNotifyIfEmptyHolder();
+        formPage.checkErrorNotifyIfEmptyHolder();
     }
 
     @Test
     void shouldGetErrorNotifyIfCyrillicHolderName() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getInvalidCardWithCyrillicName();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotifyIfInvalidHolder();
+        formPage.checkErrorNotifyIfInvalidHolder();
     }
 
     @Test
     void shouldGetErrorIfHolderNameContainsDigits() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getInvalidCardWithDigitsInName();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotifyIfInvalidHolder();
+        formPage.checkErrorNotifyIfInvalidHolder();
     }
 
     @Test
     void shouldGetErrorIfHolderNameContainsSpecialSymbols() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getInvalidCardWithSpecialSymbolsInName();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotifyIfInvalidHolder();
+        formPage.checkErrorNotifyIfInvalidHolder();
     }
 
     @Test
     void shouldGetErrorNotifyIfEmptyCVC() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getValidApprovedCard();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setEmptyValue(cardInfo, "cvcField");
-        formPage.getErrorNotifyIfEmptyCVC();
+        formPage.checkErrorNotifyIfEmptyCVC();
     }
 
     @Test
     void shouldGetErrorNotifyIfCVCContains2Digits() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getInvalidCVCWith2Digits();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotifyIfInvalidCVC();
+        formPage.checkErrorNotifyIfInvalidCVC();
     }
 
     @Test
     void shouldGetErrorNotifyIfCVCContainsLetters() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getInvalidCVCWithLetters();
-        var formPage = mainPage.openCreditForm();
+        var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotifyIfInvalidCVC();
+        formPage.checkErrorNotifyIfInvalidCVC();
     }
 }
