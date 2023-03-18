@@ -23,27 +23,27 @@ public class SQLHelper {
     }
 
     @SneakyThrows
-    public static String getPaymentStatus(String status) {
+    public static String getPaymentStatus() {
         Connection conn = getConn();
-        var SQLQuery = "SELECT status FROM payment_entity JOIN order_entity ON transaction_id = payment_id where status = ?";
-        return runner.query(conn, SQLQuery, new ScalarHandler<String>(), status);
+        var SQLQuery = "SELECT status FROM payment_entity ORDER BY created DESC";
+        return runner.query(conn, SQLQuery, new ScalarHandler<String>());
     }
 
     @SneakyThrows
     public static void assertPaymentStatus(String status) {
-        assertEquals(status, getPaymentStatus(status));
+        assertEquals(status, getPaymentStatus());
     }
 
     @SneakyThrows
-    public static String getCreditStatus(String status) {
+    public static String getCreditStatus() {
         Connection conn = getConn();
-        var SQLQuery = "SELECT status FROM credit_request_entity JOIN order_entity ON bank_id = credit_id where status = ?";
-        return runner.query(conn, SQLQuery, new ScalarHandler<String>(), status);
+        var SQLQuery = "SELECT status FROM credit_request_entity ORDER BY created DESC";
+        return runner.query(conn, SQLQuery, new ScalarHandler<String>());
     }
 
     @SneakyThrows
     public static void assertCreditStatus(String status) {
-        assertEquals(status, getCreditStatus(status));
+        assertEquals(status, getCreditStatus());
     }
 
     @SneakyThrows

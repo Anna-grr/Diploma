@@ -9,6 +9,7 @@ import ru.netology.data.SQLHelper;
 import ru.netology.page.MainPage;
 
 import static com.codeborne.selenide.Selenide.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.netology.data.SQLHelper.cleanDatabase;
 
 
@@ -36,22 +37,22 @@ public class PaymentTest {
     }
 
     @Test
-    void happyPath() {
+    void shouldSucceedIfApprovedCardAndValidData() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getValidApprovedCard();
         var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getSuccessNotification();
-        SQLHelper.assertPaymentStatus("APPROVED");
+        formPage.checkSuccessNotification();
+        SQLHelper.assertPaymentStatus("APPROVED");;
     }
 
     @Test
-    void sadPath() {
+    void shouldBeRejectedIfDeclinedCardAndValidData() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getValidDeclinedCard();
         var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotification();
+        formPage.checkErrorNotification();
         SQLHelper.assertPaymentStatus("DECLINED");
     }
 
@@ -61,7 +62,7 @@ public class PaymentTest {
         var cardInfo = DataHelper.getValidCardWithCurrentMonthAndCurrentYear();
         var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getSuccessNotification();
+        formPage.checkSuccessNotification();
         SQLHelper.assertPaymentStatus("APPROVED");
     }
 
@@ -71,7 +72,7 @@ public class PaymentTest {
         var cardInfo = DataHelper.getValidCardWithPlus4YearsFromCurrent();
         var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getSuccessNotification();
+        formPage.checkSuccessNotification();
         SQLHelper.assertPaymentStatus("APPROVED");
     }
 
@@ -81,7 +82,7 @@ public class PaymentTest {
         var cardInfo = DataHelper.getValidCardWithPlus5YearsFromCurrent();
         var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getSuccessNotification();
+        formPage.checkSuccessNotification();
         SQLHelper.assertPaymentStatus("APPROVED");
     }
 
@@ -91,7 +92,7 @@ public class PaymentTest {
         var cardInfo = DataHelper.getValidCardWithHyphenatedName();
         var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getSuccessNotification();
+        formPage.checkSuccessNotification();
         SQLHelper.assertPaymentStatus("APPROVED");
     }
 
@@ -128,7 +129,7 @@ public class PaymentTest {
         var cardInfo = DataHelper.getInvalidCardWith16RandomDigits();
         var formPage = mainPage.openPaymentForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotification();
+        formPage.checkErrorNotification();
     }
 
     @Test

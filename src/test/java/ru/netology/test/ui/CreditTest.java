@@ -35,22 +35,22 @@ public class CreditTest {
     }
 
     @Test
-    void happyPath() {
+    void shouldSucceedIfApprovedCardAndValidData() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getValidApprovedCard();
         var formPage = mainPage.openCreditForm();
         formPage.setValues(cardInfo);
-        formPage.getSuccessNotification();
+        formPage.checkSuccessNotification();
         SQLHelper.assertCreditStatus("APPROVED");
     }
 
     @Test
-    void sadPath() {
+    void shouldBeRejectedIfDeclinedCardAndValidData() {
         var mainPage = new MainPage();
         var cardInfo = DataHelper.getValidDeclinedCard();
         var formPage = mainPage.openCreditForm();
         formPage.setValues(cardInfo);
-        formPage.getSuccessNotification();
+        formPage.checkErrorNotification();
         SQLHelper.assertCreditStatus("DECLINED");
     }
 
@@ -60,7 +60,7 @@ public class CreditTest {
         var cardInfo = DataHelper.getValidCardWithCurrentMonthAndCurrentYear();
         var formPage = mainPage.openCreditForm();
         formPage.setValues(cardInfo);
-        formPage.getSuccessNotification();
+        formPage.checkSuccessNotification();
         SQLHelper.assertCreditStatus("APPROVED");
     }
 
@@ -70,7 +70,7 @@ public class CreditTest {
         var cardInfo = DataHelper.getValidCardWithPlus4YearsFromCurrent();
         var formPage = mainPage.openCreditForm();
         formPage.setValues(cardInfo);
-        formPage.getSuccessNotification();
+        formPage.checkSuccessNotification();
         SQLHelper.assertCreditStatus("APPROVED");
     }
 
@@ -80,7 +80,7 @@ public class CreditTest {
         var cardInfo = DataHelper.getValidCardWithPlus5YearsFromCurrent();
         var formPage = mainPage.openCreditForm();
         formPage.setValues(cardInfo);
-        formPage.getSuccessNotification();
+        formPage.checkSuccessNotification();
         SQLHelper.assertCreditStatus("APPROVED");
     }
 
@@ -90,7 +90,7 @@ public class CreditTest {
         var cardInfo = DataHelper.getValidCardWithHyphenatedName();
         var formPage = mainPage.openCreditForm();
         formPage.setValues(cardInfo);
-        formPage.getSuccessNotification();
+        formPage.checkSuccessNotification();
         SQLHelper.assertCreditStatus("APPROVED");
     }
 
@@ -127,7 +127,7 @@ public class CreditTest {
         var cardInfo = DataHelper.getInvalidCardWith16RandomDigits();
         var formPage = mainPage.openCreditForm();
         formPage.setValues(cardInfo);
-        formPage.getErrorNotification();
+        formPage.checkErrorNotification();
     }
 
     @Test
