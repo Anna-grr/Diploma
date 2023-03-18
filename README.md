@@ -1,7 +1,9 @@
 # Дипломный проект по профессии «Тестировщик»
 ## План автоматизации и отчетные документы по итогам тестирования:
 
-[1. План автоматизации](https://github.com/Anna-grr/Diploma/blob/master/documentation/Plan.md)
+[1. План автоматизации.](https://github.com/Anna-grr/Diploma/blob/master/documentation/Plan.md)  
+[2. Отчёт по итогам тестирования.](https://github.com/Anna-grr/Diploma/blob/master/documentation/Report.md)  
+[3. Отчёт по итогам автоматизации.](https://github.com/Anna-grr/Diploma/blob/master/documentation/Summary.md)
 
 ## Процедура запуска автотестов:
 ### MySQL
