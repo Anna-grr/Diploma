@@ -1,4 +1,5 @@
 # Дипломный проект по профессии «Тестировщик»
+[Задание.](https://github.com/Anna-grr/Diploma/blob/master/documentation/Task.md)
 ## План автоматизации и отчетные документы по итогам тестирования:
 
 [1. План автоматизации.](https://github.com/Anna-grr/Diploma/blob/master/documentation/Plan.md)  
